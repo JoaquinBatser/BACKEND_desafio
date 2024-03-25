@@ -5,9 +5,15 @@ import { createHash, isValidPassword } from '../../utils.js'
 export default class UsersManager {
   constructor(repo) {
     this.repo = repo
+    this.addUser = this.addUser.bind(this)
   }
   async addUser(user) {
     console.log('service')
+    console.log('serviceuser', user)
+    if (!this.repo) {
+      console.error('Repository is not defined')
+      return { success: false, message: 'Repository is not defined' }
+    }
     try {
       const newUser = await this.repo.add(user)
       return !newUser
@@ -24,8 +30,8 @@ export default class UsersManager {
           message: 'Credentials already in use',
           user: false,
         }
-        // } else if (error instanceof ValidationError) {
-        //   return { success: false, message: error, user: false }
+      } else if (error instanceof mongoose.Error.ValidationError) {
+        return { success: false, message: error, user: false }
       } else {
         console.error(error)
         return { success: false, message: error, user: false }

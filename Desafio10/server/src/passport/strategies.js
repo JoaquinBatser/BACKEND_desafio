@@ -2,20 +2,28 @@ import UserManager from '../services/db/users.service.db.js'
 import passport from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local'
 import { loginValidator } from '../validation/loginValidator.js'
+import { signupValidator } from '../validation/signupValidator.js'
+import UsersRepository from '../repositories/users.repository.js'
+import { userModel } from '../models/user.model.js'
 
-const userManager = new UserManager()
+const usersRepository = new UsersRepository(userModel)
+const userManager = new UserManager(usersRepository)
 
 const strategyOptions = {
   usernameField: 'email',
-  passportField: 'password',
+  passwordField: 'password',
   passReqToCallback: true,
 }
 
 const signup = async (req, email, password, done) => {
   try {
     console.log('strategies')
+    const signupValidation = signupValidator(req.body)
     const data = await userManager.addUser(req.body)
 
+    if (signupValidation.success === false) {
+      return done(null, false, { signupValidation })
+    }
     if (!data.success) {
       return done(null, data.user, {
         message: data.message,
@@ -29,7 +37,7 @@ const signup = async (req, email, password, done) => {
     }
   } catch (error) {
     console.log(error)
-    return done(null, false)
+    return done(error)
   }
 }
 
@@ -38,22 +46,22 @@ const login = async (req, email, password, done) => {
     const user = { email, password }
     console.log('user', user)
 
-    // const loginValidation = loginValidator({ email, password })
-    // console.log('loginValidation', loginValidation)
+    const loginValidation = loginValidator({ email, password })
+    console.log('loginValidation', loginValidation)
 
-    // if (loginValidation.success === false) {
-    //   return done(null, false, { loginValidation })
-    // }
-
+    if (loginValidation.success === false) {
+      return done(null, false, { loginValidation })
+    }
     const userLogin = await userManager.loginUser(user)
-    console.log('login', userLogin)
+    console.log('User login:', userLogin.foundUser)
 
     if (!userLogin.success)
       return done(null, false, { message: 'User not found' })
 
-    return done(null, userLogin.foundUser)
+    return done(null, userLogin.foundUser, { message: 'User logged in' })
   } catch (error) {
     console.log(error)
+    return done(error)
   }
 }
 
@@ -65,6 +73,7 @@ passport.use('login', loginStrategy)
 
 passport.serializeUser((user, done) => {
   console.log('Serialized User')
+  console.log('user', user)
   done(null, user._id)
 })
 

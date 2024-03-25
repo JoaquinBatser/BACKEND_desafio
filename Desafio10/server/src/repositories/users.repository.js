@@ -10,13 +10,13 @@ export default class UsersRepository {
     const { email, password } = user
 
     if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-      newUser = await userModel.create({
+      newUser = await this.userModel.create({
         ...user,
         password: createHash(password),
         role: 'admin',
       })
     } else {
-      newUser = await userModel.create({
+      newUser = await this.userModel.create({
         ...user,
         password: createHash(password),
         role: 'user',
@@ -26,23 +26,27 @@ export default class UsersRepository {
   }
 
   async login({ email, password }) {
-    console.log('repo', email, password)
+    console.log('repo', 'email', email, 'password', password)
     const user = await this.userModel.findOne({ email })
-    console.log('repo', user)
+
+    if (!user) {
+      return { 'User does not exist': false }
+    }
+    console.log('repo', 'user', user)
     const isValid = isValidPassword(user, password)
-    console.log('repo', isValid)
+    console.log('repo', 'isValid', isValid)
     // return true ? user && isValid : false
-    return { email, password }
+    return user
   }
   async isValid(user, password) {
     return isValidPassword(user, password)
   }
 
   async getByEmail(email) {
-    return await userModel.findOne({ email })
+    return await this.userModel.findOne({ email })
   }
 
   async getById(id) {
-    return await userModel.findById(id)
+    return await this.userModel.findById(id)
   }
 }

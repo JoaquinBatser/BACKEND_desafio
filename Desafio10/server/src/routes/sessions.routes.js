@@ -4,11 +4,23 @@ import passport from 'passport'
 
 const sessionsRouter = Router()
 
-sessionsRouter.post('/signup', passport.authenticate('signup'), sessionsController.signup)
+sessionsRouter.post(
+  '/signup',
+  passport.authenticate('signup'),
+  sessionsController.signup
+)
 
-sessionsRouter.post('/login', passport.authenticate('login'), sessionsController.login)
+sessionsRouter.post(
+  '/login',
+  passport.authenticate('login'),
+  sessionsController.login
+)
 
-sessionsRouter.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {})
+sessionsRouter.get(
+  '/github',
+  passport.authenticate('github', { scope: ['user:email'] }),
+  async (req, res) => {}
+)
 
 sessionsRouter.get(
   '/githubcallback',

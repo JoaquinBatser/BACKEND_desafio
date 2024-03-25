@@ -1,6 +1,7 @@
 import repositories from '../repositories/index.js'
 import UsersManager from '../services/db/users.service.db.js'
 
+console.log('repositories.users:', repositories.users)
 const usersManager = new UsersManager(repositories.users)
 
 const signup = async (req, res) => {
@@ -31,22 +32,25 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    console.log('controller')
     const id = req.session.passport.user
     console.log('id', id)
     const userData = await usersManager.getUserById(id)
-    console.log('data', userData)
+    console.log('dataxxx', userData)
     const { password, ...data } = userData.user
 
     if (!userData.success) {
       res.json({
         message: 'User not found',
         success: userData.success,
+        session: req.session,
       })
     } else {
       res.json({
         message: 'User logged in',
         user: userData.user,
         success: userData.success,
+        session: req.session,
       })
     }
   } catch (error) {
