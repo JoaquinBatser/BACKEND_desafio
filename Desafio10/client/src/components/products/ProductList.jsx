@@ -7,9 +7,11 @@ const ProductList = ({ products, category, isAdmin }) => {
     : products
 
   return (
-    <ul className="products-list">
+    <ul className="w-[1200px] m-auto grid grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 mt-4">
       {filteredProducts.map((product) => (
-        <ProductCard key={product.id} product={product} isAdmin={isAdmin} />
+        <li>
+          <ProductCard key={product.id} product={product} isAdmin={isAdmin} />
+        </li>
       ))}
     </ul>
   )

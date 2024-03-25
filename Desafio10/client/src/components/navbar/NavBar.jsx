@@ -8,26 +8,26 @@ const NavBar = ({ data, user, isAdmin }) => {
   const categories = [...new Set(products.map((product) => product.category))]
 
   return (
-    <nav>
-      <NavLink to={'/'}>
-        <p>TITLE</p>
-      </NavLink>
+    <nav className="flex justify-between h-14 items-center w-full bg-black/20 px-8 ">
+      <NavLink to={'/'}>🔰</NavLink>
 
-      {!isAdmin && (
-        <div>
-          <NavLink to="/cart">Cart</NavLink>
-          <NavLink to="/chat">Chat</NavLink>
-        </div>
-      )}
-
-      {categories.map((category) => {
-        return (
-          <NavLink to={`/category/${category}`} key={category}>
-            <p>{category}</p>
-          </NavLink>
-        )
-      })}
+      <ul className="flex gap-2">
+        {categories.map((category) => {
+          return (
+            <li className="hover:underline">
+              <NavLink to={`/category/${category}`} key={category}>
+                <p>{category}</p>
+              </NavLink>
+            </li>
+          )
+        })}
+      </ul>
       <div>
+        {!isAdmin && (
+          <div>
+            <NavLink to="/cart">Cart</NavLink>
+          </div>
+        )}
         {user ? (
           <NavLink to="/profile">{user.first_name}</NavLink>
         ) : (

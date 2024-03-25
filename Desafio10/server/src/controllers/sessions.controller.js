@@ -5,6 +5,7 @@ const usersManager = new UsersManager(repositories.users)
 
 const signup = async (req, res) => {
   try {
+    console.log('controller')
     const id = req.session.passport.user
     const user = await usersManager.getUserById(id)
 
@@ -22,6 +23,8 @@ const signup = async (req, res) => {
       })
     }
   } catch (error) {
+    console.log(error.message)
+
     next(error.message)
   }
 }

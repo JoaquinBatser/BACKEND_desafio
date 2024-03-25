@@ -13,6 +13,7 @@ const strategyOptions = {
 
 const signup = async (req, email, password, done) => {
   try {
+    console.log('strategies')
     const data = await userManager.addUser(req.body)
 
     if (!data.success) {
@@ -27,6 +28,7 @@ const signup = async (req, email, password, done) => {
       })
     }
   } catch (error) {
+    console.log(error)
     return done(null, false)
   }
 }

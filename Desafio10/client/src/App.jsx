@@ -11,6 +11,7 @@ import Signup from './pages/Signup'
 import Categories from './pages/Categories'
 import Cart from './pages/Cart'
 import Chat from './pages/Chat'
+import ChatBubble from './components/ChatBubble.jsx'
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
@@ -38,7 +39,7 @@ function App() {
       ) : (
         <div>Loading...</div>
       )}
-
+      <ChatBubble />
       <Routes>
         <Route path="/" element={<Home data={data} isAdmin={isAdmin} />} />
         <Route path="/profile" element={<Profile user={user} />} />

@@ -7,6 +7,7 @@ export default class UsersManager {
     this.repo = repo
   }
   async addUser(user) {
+    console.log('service')
     try {
       const newUser = await this.repo.add(user)
       return !newUser
@@ -23,8 +24,8 @@ export default class UsersManager {
           message: 'Credentials already in use',
           user: false,
         }
-      } else if (error instanceof ValidationError) {
-        return { success: false, message: error, user: false }
+        // } else if (error instanceof ValidationError) {
+        //   return { success: false, message: error, user: false }
       } else {
         console.error(error)
         return { success: false, message: error, user: false }

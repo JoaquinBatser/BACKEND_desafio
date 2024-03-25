@@ -5,6 +5,7 @@ export default class UsersRepository {
   }
 
   async add(user) {
+    console.log('repository')
     let newUser
     const { email, password } = user
 
