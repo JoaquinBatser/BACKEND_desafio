@@ -17,8 +17,8 @@ const strategyOptions = {
 
 const signup = async (req, email, password, done) => {
   try {
-    console.log('strategies')
     const signupValidation = signupValidator(req.body)
+    console.log('signupValidation', signupValidation)
     const data = await userManager.addUser(req.body)
 
     if (signupValidation.success === false) {
@@ -44,7 +44,6 @@ const signup = async (req, email, password, done) => {
 const login = async (req, email, password, done) => {
   try {
     const user = { email, password }
-    console.log('user', user)
 
     const loginValidation = loginValidator({ email, password })
     console.log('loginValidation', loginValidation)
@@ -53,7 +52,6 @@ const login = async (req, email, password, done) => {
       return done(null, false, { loginValidation })
     }
     const userLogin = await userManager.loginUser(user)
-    console.log('User login:', userLogin.foundUser)
 
     if (!userLogin.success)
       return done(null, false, { message: 'User not found' })
@@ -72,8 +70,6 @@ passport.use('signup', signupStrategy)
 passport.use('login', loginStrategy)
 
 passport.serializeUser((user, done) => {
-  console.log('Serialized User')
-  console.log('user', user)
   done(null, user._id)
 })
 

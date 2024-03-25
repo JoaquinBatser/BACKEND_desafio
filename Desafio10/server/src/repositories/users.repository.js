@@ -9,20 +9,28 @@ export default class UsersRepository {
     let newUser
     const { email, password } = user
 
+    const userExists = await this.userModel.findOne({ email })
+
+    if (userExists) {
+      return { message: 'User already exists', success: false }
+    }
+
     if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
       newUser = await this.userModel.create({
         ...user,
         password: createHash(password),
         role: 'admin',
       })
+      return { newUser, message: 'User created', success: true }
     } else {
       newUser = await this.userModel.create({
         ...user,
         password: createHash(password),
         role: 'user',
       })
+      console.log('newUser', newUser)
+      return { newUser, message: 'User created', success: true }
     }
-    return newUser
   }
 
   async login({ email, password }) {

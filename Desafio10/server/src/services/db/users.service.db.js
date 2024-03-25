@@ -16,9 +16,11 @@ export default class UsersManager {
     }
     try {
       const newUser = await this.repo.add(user)
+      console.log('newUser', newUser)
+
       return !newUser
-        ? { success: false, message: 'Problem adding new user', user: false }
-        : { success: true, message: 'User added', user: newUser }
+        ? { success: false, message: newUser.message, user: false }
+        : { success: true, message: newUser.message, user: newUser.newUser }
     } catch (error) {
       if (
         error.code === 11000 &&
