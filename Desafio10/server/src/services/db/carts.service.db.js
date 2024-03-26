@@ -17,10 +17,24 @@ export default class CartsManager {
     }
   }
 
-  async newCart() {
+  async getUserCart(userId) {
     try {
-      const newCart = await this.repo.new()
-      return newCart
+      const cart = await this.repo.getUserCart(userId)
+      return !cart
+        ? { success: false, message: 'Cart not found' }
+        : { success: true, message: 'Cart found', cart }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async newCart(userId) {
+    try {
+      const newCart = await this.repo.new(userId)
+
+      return !newCart
+        ? { success: false, message: 'Cart not created' }
+        : { success: true, message: 'Cart created', cart: newCart }
     } catch (error) {
       console.log(error)
     }

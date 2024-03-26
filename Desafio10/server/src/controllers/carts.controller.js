@@ -29,11 +29,29 @@ const getCartById = async (req, res) => {
   }
 }
 
+const getUserCart = async (req, res) => {
+  const { userId } = req.body
+  try {
+    const cart = await cartsManager.getUserCart(userId)
+    res.json(cart)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const createCart = async (req, res) => {
   try {
-    await cartsManager.newCart()
+    const { userId } = req.body
+    console.log('userId:', userId)
+    const cart = await cartsManager.newCart(userId)
+
+    const response = {
+      success: cart.success,
+      message: cart.message,
+      cart: cart.cart,
+    }
     res.json({
-      message: 'Successful new Cart',
+      response,
     })
   } catch (error) {
     res.status(500).json({
@@ -192,6 +210,7 @@ const purchaseCart = async (req, res) => {
 export default {
   getCart,
   getCartById,
+  getUserCart,
   createCart,
   addProductToCart,
   updateProductQuantity,

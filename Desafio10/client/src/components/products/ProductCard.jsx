@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import axios from 'axios'
 import { addProductToCart } from '../../api/fetch'
+import { UserContext } from '../../context/UserContext'
 
 const ProductCard = ({ product }) => {
+  const { user } = useContext(UserContext)
   const addProduct = async () => {
-    const productResponse = await addProductToCart(product.id)
+    const productResponse = await addProductToCart(product.id, user._id)
     console.log(productResponse.data)
   }
   return (

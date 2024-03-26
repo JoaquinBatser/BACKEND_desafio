@@ -11,8 +11,12 @@ export default class CartsRepository {
     return await this.cartModel.findById(id).lean()
   }
 
-  async new() {
-    return await this.cartModel.create({})
+  async getUserCart(userId) {
+    return await this.cartModel.findOne({ user: userId }).lean()
+  }
+
+  async new(userId) {
+    return await this.cartModel.create({ user: userId, products: [] })
   }
 
   async addToCart(cId, pId) {

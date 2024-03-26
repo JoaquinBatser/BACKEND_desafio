@@ -48,7 +48,6 @@ export const loginUser = async ({ userData }) => {
 export const getUser = async () => {
   try {
     const data = await axios.get('/api/sessions/current')
-    return data
   } catch (error) {
     console.log(error)
   }
@@ -72,7 +71,16 @@ export const getCart = async ({ cartId }) => {
   }
 }
 
-export const addProductToCart = async (productId) => {
+export const getUserCart = async ({ userId }) => {
+  try {
+    const data = await axios.get(`/api/carts/user/${userId}`)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const addProductToCart = async (productId, userId) => {
   try {
     const data = await axios.post(
       `api/carts/65f8c3f6c77a348bcd692740/product/${productId}/`

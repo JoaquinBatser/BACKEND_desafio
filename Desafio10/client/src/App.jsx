@@ -15,6 +15,7 @@ import ChatBubble from './components/ChatBubble.jsx'
 import ProductDetail from './components/products/ProductDetail.jsx'
 import ProductList from './components/products/ProductList.jsx'
 import ProductListContainer from './components/products/ProductListContainer.jsx'
+import { UserProvider } from './context/UserContext.jsx'
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
@@ -36,7 +37,7 @@ function App() {
   }, [])
 
   return (
-    <>
+    <UserProvider>
       <NavBar />
 
       <ChatBubble />
@@ -54,7 +55,7 @@ function App() {
         <Route path="*" element={<div>Not Found</div>} />
         <Route path="/chat" element={<Chat user={user} />} />
       </Routes>
-    </>
+    </UserProvider>
   )
 }
 

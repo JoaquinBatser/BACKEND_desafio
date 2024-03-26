@@ -52,9 +52,13 @@ app.use(cookieParser())
 
 app.use(
   session({
+    store: MongoStore.create({ mongoUrl: DB_URL, ttl: 1000 * 60 * 60 }),
     secret: COOKIESECRET,
-    resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    resave: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60,
+    },
   })
 )
 
