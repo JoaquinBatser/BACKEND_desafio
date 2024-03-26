@@ -7,7 +7,7 @@ export default class ProductsManager {
   async getProducts(filter) {
     try {
       filter.options.lean = true
-      const products = await productModel.paginate(filter.query, filter.options)
+      const products = await this.repo.get(filter)
       return products
     } catch (error) {
       console.log(error)

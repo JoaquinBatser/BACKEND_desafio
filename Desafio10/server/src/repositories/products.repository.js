@@ -9,7 +9,7 @@ export default class ProductsRepository {
   }
 
   async get(filter) {
-    return await this.productModel.paginate(filter).lean()
+    return await this.productModel.paginate(filter.query, filter.options)
   }
 
   async getById(id) {

@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { addProductToCart } from '../../api/fetch'
 
-const ProductCard = ({ product, isAdmin }) => {
+const ProductCard = ({ product }) => {
   const addProduct = async () => {
     const productResponse = await addProductToCart(product.id)
     console.log(productResponse.data)
@@ -21,16 +21,15 @@ const ProductCard = ({ product, isAdmin }) => {
       </div>
 
       <div className="flex items-center justify-between">
-        {!isAdmin && (
-          <div>
-            <button
-              className="border hover:bg-neutral-100 transition-all py-2 px-4 rounded"
-              onClick={addProduct}
-            >
-              Add to cart
-            </button>
-          </div>
-        )}
+        <div>
+          <button
+            className="border hover:bg-neutral-100 transition-all py-2 px-4 rounded"
+            onClick={addProduct}
+          >
+            Add to cart
+          </button>
+        </div>
+
         <p className="font-semibold">${product.price}</p>
       </div>
     </div>

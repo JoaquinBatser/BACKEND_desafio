@@ -1,7 +1,6 @@
 import repositories from '../repositories/index.js'
 import UsersManager from '../services/db/users.service.db.js'
 
-console.log('repositories.users:', repositories.users)
 const usersManager = new UsersManager(repositories.users)
 
 const signup = async (req, res) => {
@@ -9,7 +8,7 @@ const signup = async (req, res) => {
     console.log('controller')
     const id = req.session.passport.user
     const user = await usersManager.getUserById(id)
-
+    console.log('controller user', user)
     if (!user.success) {
       res.json({
         success: false,

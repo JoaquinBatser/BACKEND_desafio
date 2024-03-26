@@ -12,6 +12,9 @@ import Categories from './pages/Categories'
 import Cart from './pages/Cart'
 import Chat from './pages/Chat'
 import ChatBubble from './components/ChatBubble.jsx'
+import ProductDetail from './components/products/ProductDetail.jsx'
+import ProductList from './components/products/ProductList.jsx'
+import ProductListContainer from './components/products/ProductListContainer.jsx'
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
@@ -34,24 +37,19 @@ function App() {
 
   return (
     <>
-      {data.success ? (
-        <NavBar data={data} user={user} isAdmin={isAdmin} />
-      ) : (
-        <div>Loading...</div>
-      )}
+      <NavBar />
+
       <ChatBubble />
       <Routes>
-        <Route path="/" element={<Home data={data} isAdmin={isAdmin} />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/:category" element={<Home />} />
         <Route path="/profile" element={<Profile user={user} />} />
         <Route
           path="/login"
           element={<Login setUser={setUser} setIsAdmin={setIsAdmin} />}
         />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
-        <Route
-          path="/category/:category"
-          element={<Categories data={data} isAdmin={isAdmin} />}
-        />
+        <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<div>Not Found</div>} />
         <Route path="/chat" element={<Chat user={user} />} />

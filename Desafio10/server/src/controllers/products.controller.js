@@ -8,6 +8,7 @@ const getProducts = async (req, res) => {
   try {
     const { limit = 10, page = 1, sort, category } = req.query
 
+    console.log('query', req.query)
     const filter = {
       query: {},
       options: {
@@ -23,9 +24,8 @@ const getProducts = async (req, res) => {
     if (category) {
       filter.query = { category }
     }
-
+    console.log(filter)
     const products = await productManager.getProducts(filter)
-
     if (products.length === 0) {
       return res
         .status(404)
@@ -35,7 +35,7 @@ const getProducts = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Products found',
-      products: products.docs,
+      products: products,
     })
   } catch (error) {
     console.log(error)

@@ -1,14 +1,11 @@
 import React from 'react'
 import ProductList from '../components/products/ProductList'
+import ProductListContainer from '../components/products/ProductListContainer'
 
-const Home = ({ data, isAdmin }) => {
+const Home = () => {
   return (
     <main>
-      {data.success ? (
-        <ProductList products={data.products} isAdmin={isAdmin} />
-      ) : (
-        <div>Loading...</div>
-      )}
+      <ProductListContainer />
     </main>
   )
 }
