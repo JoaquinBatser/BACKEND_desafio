@@ -30,7 +30,7 @@ const getCartById = async (req, res) => {
 }
 
 const getUserCart = async (req, res) => {
-  const { userId } = req.body
+  const { userId } = req.params
   try {
     const cart = await cartsManager.getUserCart(userId)
     res.json(cart)
@@ -41,6 +41,7 @@ const getUserCart = async (req, res) => {
 
 const createCart = async (req, res) => {
   try {
+    console.log('req.body:', req.body)
     const { userId } = req.body
     console.log('userId:', userId)
     const cart = await cartsManager.newCart(userId)

@@ -19,6 +19,7 @@ const signup = async (req, res) => {
       res.json({
         success: true,
         message: 'User created',
+        user: user.user,
         session: req.session,
       })
     }

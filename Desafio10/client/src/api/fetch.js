@@ -19,8 +19,9 @@ export const fetchProductById = async (productId) => {
   }
 }
 
-export const singupUser = async ({ newUser }) => {
+export const signupUser = async (newUser) => {
   try {
+    console.log('newUsefecthr', newUser)
     const data = await axios.post('/api/sessions/signup', newUser)
     return data
   } catch (error) {
@@ -53,9 +54,9 @@ export const getUser = async () => {
   }
 }
 
-export const createCart = async () => {
+export const createCart = async (userId) => {
   try {
-    const data = await axios.post('/api/carts')
+    const data = await axios.post('/api/carts', { userId: userId })
     return data
   } catch (error) {
     console.log(error)
@@ -71,8 +72,9 @@ export const getCart = async ({ cartId }) => {
   }
 }
 
-export const getUserCart = async ({ userId }) => {
+export const getUserCart = async (userId) => {
   try {
+    console.log('userId', userId)
     const data = await axios.get(`/api/carts/user/${userId}`)
     return data
   } catch (error) {
@@ -80,11 +82,9 @@ export const getUserCart = async ({ userId }) => {
   }
 }
 
-export const addProductToCart = async (productId, userId) => {
+export const addProductToCart = async (productId, cartId) => {
   try {
-    const data = await axios.post(
-      `api/carts/65f8c3f6c77a348bcd692740/product/${productId}/`
-    )
+    const data = await axios.post(`api/carts/${cartId}/product/${productId}/`)
     return data
   } catch (error) {
     console.log(error)

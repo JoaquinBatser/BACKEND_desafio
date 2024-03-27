@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
-import { singupUser } from '../api/fetch'
+import React, { useContext, useState } from 'react'
+import { signupUser } from '../api/fetch'
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
 
 const Signup = () => {
   const navigate = useNavigate()
+  const { setUser } = useContext(UserContext)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [age, setAge] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const signupUser = async (e) => {
+  const signupNewUser = async (e) => {
     e.preventDefault()
     const newUser = {
       first_name: firstName,
@@ -19,7 +21,12 @@ const Signup = () => {
       password: password,
       age: age,
     }
-    const user = await singupUser({ newUser })
+    const user = await signupUser(newUser)
+    console.log('signup', user)
+    if (user.data.success) {
+      setUser(user.data.user)
+      navigate('/login')
+    }
     console.log(user)
     const { data } = user
 
@@ -28,7 +35,7 @@ const Signup = () => {
 
   return (
     <div>
-      <form id="signup-html" onSubmit={signupUser}>
+      <form id="signup-html" onSubmit={signupNewUser}>
         <h2>Register</h2>
         <div>
           <label htmlFor="first_name">Nombre:</label>

@@ -18,6 +18,7 @@ const strategyOptions = {
 const signup = async (req, email, password, done) => {
   try {
     const signupValidation = signupValidator(req.body)
+    console.log('req.body', req.body)
     console.log('signupValidation', signupValidation)
     const data = await userManager.addUser(req.body)
 

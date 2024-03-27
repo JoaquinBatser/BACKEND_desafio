@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 
-const Profile = ({ user }) => {
+const Profile = () => {
+  const { user } = useContext(UserContext)
   const logoutFunction = async () => {}
   return (
     <div>
