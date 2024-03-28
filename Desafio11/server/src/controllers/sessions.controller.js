@@ -32,11 +32,8 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    console.log('controller')
     const id = req.session.passport.user
-    console.log('id', id)
     const userData = await usersManager.getUserById(id)
-    console.log('dataxxx', userData)
     const { password, ...data } = userData.user
 
     if (!userData.success) {

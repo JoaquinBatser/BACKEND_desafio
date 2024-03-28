@@ -68,7 +68,7 @@ export default class CartsRepository {
   }
 
   async deleteProductFromCart(cId, pId) {
-    const cart = await cartModel
+    const cart = await this.cartModel
       .findByIdAndUpdate(
         cId,
         { $pull: { products: { product: pId } } },
@@ -79,7 +79,7 @@ export default class CartsRepository {
   }
 
   async emptyCart(cId) {
-    const cart = await cartModel
+    const cart = await this.cartModel
       .findByIdAndUpdate(cId, { $set: { products: [] } }, { new: true })
       .lean()
     return cart

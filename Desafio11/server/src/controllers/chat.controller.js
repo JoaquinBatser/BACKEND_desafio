@@ -19,14 +19,14 @@ const createMessage = async (req, res) => {
   }
 }
 
-const getMessages = async (req, res) => {
+const getMessages = async (req, res, next) => {
   try {
-    const messages = await chatService.findMessages()
-    console.log('measdasd', messages)
-    if (!messages) {
-      throw new CustomError('Error getting messages', 400)
+    const messagesData = await chatService.findMessages()
+    if (!messagesData.success) {
+      throw new CustomError(messagesData.message, 400)
     }
-    return res.status(200).json({ success: true, data: messages })
+
+    return res.status(200).json({ messagesData })
   } catch (error) {
     next(error)
   }
