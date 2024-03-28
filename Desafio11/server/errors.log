@@ -1,0 +1,6 @@
+{"level":"warn","message":"This is a warning message"}
+warning: 2024-03-27T23:00:12.010Z - GET - /
+fatal: This is a warning message
+warning: 2024-03-27T23:10:21.670Z - GET - /api/loggerTest
+warning: 2024-03-27T23:12:03.071Z - GET - /api/loggerTest
+warning: 2024-03-27T23:12:21.760Z - GET - /api/loggerTest
