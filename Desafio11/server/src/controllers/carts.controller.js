@@ -1,4 +1,5 @@
 import repositories from '../repositories/index.js'
+import CustomError from '../services/CustomError.js'
 import CartsManager from '../services/db/carts.service.db.js'
 import ProductsManager from '../services/db/products.service.db.js'
 
@@ -14,133 +15,128 @@ const getCart = async (req, res) => {
   }
 }
 
-const getCartById = async (req, res) => {
+const getCartById = async (req, res, next) => {
   const { cId } = req.params
   try {
-    const cart = await cartsManager.getCartById(cId)
-    const response = {
-      status: 'success',
-      message: 'Cart found',
-      data: cart,
+    const cartData = await cartsManager.getCartById(cId)
+
+    if (!cartData.success) {
+      throw new CustomError(cartData.message, 404)
     }
-    res.json(response)
+
+    res.status(200).json({
+      cartData,
+    })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 }
 
-const getUserCart = async (req, res) => {
+const getUserCart = async (req, res, next) => {
   const { userId } = req.params
   try {
-    const cart = await cartsManager.getUserCart(userId)
-    res.json(cart)
-  } catch (error) {
-    console.log(error)
-  }
-}
+    const cartData = await cartsManager.getUserCart(userId)
 
-const createCart = async (req, res) => {
-  try {
-    console.log('req.body:', req.body)
-    const { userId } = req.body
-    console.log('userId:', userId)
-    const cart = await cartsManager.newCart(userId)
-
-    const response = {
-      success: cart.success,
-      message: cart.message,
-      cart: cart.cart,
+    if (!cartData.success) {
+      throw new CustomError(cartData.message, 404)
     }
-    res.json({
-      response,
+
+    res.status(200).json({
+      cartData,
     })
   } catch (error) {
-    res.status(500).json({
-      message: 'Error creating cart',
-      error: error.message,
-    })
+    next(error)
   }
 }
 
-const addProductToCart = async (req, res) => {
+const createCart = async (req, res, next) => {
+  try {
+    const { userId } = req.body
+    const cartData = await cartsManager.newCart(userId)
+
+    if (!cartData.success) {
+      throw new CustomError(cartData.message, 404)
+    }
+
+    res.status(201).json({
+      cartData,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const addProductToCart = async (req, res, next) => {
   const { cId, pId } = req.params
 
   try {
-    const cart = await cartsManager.addProductToCart(cId, pId)
-    if (!cart) {
-      res.status(404).json({
-        success: false,
-        message: 'Cart not found',
-      })
-      return
+    const cartData = await cartsManager.addProductToCart(cId, pId)
+
+    if (!cartData.success) {
+      throw new CustomError(cartData.message, 404)
     }
+
     res.status(200).json({
-      success: true,
-      message: `Product ${pId} added to cart ${cId}`,
-      cart,
+      cartData,
     })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 }
 
-const updateProductQuantity = async (req, res) => {
+const updateProductQuantity = async (req, res, next) => {
   const { cId, pId } = req.params
   const { quantity } = req.body
   try {
-    const cart = await cartsManager.updateProductQuantity(cId, pId, quantity)
-    if (!cart) {
-      res.status(404).json({
-        success: false,
-        message: 'Cart not found',
-      })
-      return
+    const cartData = await cartsManager.updateProductQuantity(
+      cId,
+      pId,
+      quantity
+    )
+    if (!cartData.success) {
+      throw new CustomError(cartData.message, 404)
     }
     res.status(200).json({
-      success: true,
-      message: `Product ${pId} quantity updated in cart ${cId}`,
-      cart,
+      cartData,
     })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 }
 
-const deleteProductFromCart = async (req, res) => {
+const deleteProductFromCart = async (req, res, next) => {
   const { cId, pId } = req.params
 
   try {
-    const cart = await cartsManager.deleteProductFromCart(cId, pId)
-    if (!cart) {
-      res.status(404).json({
-        success: false,
-        message: 'Cart not found',
-      })
-      return
+    const cartData = await cartsManager.deleteProductFromCart(cId, pId)
+    if (!cartData.success) {
+      throw new CustomError(cartData.message, 404)
     }
+
     res.status(200).json({
-      success: true,
-      message: `Product ${pId} deleted from cart ${cId}`,
-      cart,
+      cartData,
     })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 }
 
-const emptyCart = async (req, res) => {
+const emptyCart = async (req, res, next) => {
   const { cId } = req.params
   try {
-    await cartsManager.emptyCart(cId)
-    res.json({
-      message: 'Cart emptied successfully',
+    const cartData = await cartsManager.emptyCart(cId)
+    if (!cartData.success) {
+      throw new CustomError(cartData.message, 404)
+    }
+    res.status(200).json({
+      cartData,
     })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 }
 
-const purchaseCart = async (req, res) => {
+const purchaseCart = async (req, res, next) => {
   const { cId } = req.params
   const { purchaser } = req.body
   const code = Math.random().toString(36).substring(2, 15)

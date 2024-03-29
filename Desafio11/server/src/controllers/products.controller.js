@@ -25,15 +25,15 @@ const getProducts = async (req, res, next) => {
     if (category) {
       filter.query = { category }
     }
-    const products = await productManager.getProducts(filter)
-    if (products.length === 0) {
-      throw new CustomError('Products not found', 404)
+
+    const productsData = await productManager.getProducts(filter)
+
+    if (!productsData.success) {
+      throw new CustomError(productsData.message, 404)
     }
 
     res.status(200).json({
-      success: true,
-      message: 'Products found',
-      products: products,
+      productsData,
     })
   } catch (error) {
     next(error)
@@ -44,9 +44,11 @@ const getProductById = async (req, res, next) => {
   const { id } = req.params
   try {
     const productData = await productManager.getProductById(id)
+
     if (!productData.success) {
       throw new CustomError(productData.message, 404)
     }
+
     res.status(200).json({
       productData,
     })
@@ -68,8 +70,6 @@ const addProduct = async (req, res, next) => {
       code,
       stock,
     })
-    console.log('rpidata', productData)
-    console.log('rpidataerro', productData.error)
 
     if (!productData.success) {
       throw new CustomError(productData.error, 400)
@@ -83,7 +83,7 @@ const addProduct = async (req, res, next) => {
   }
 }
 
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
   const { id } = req.params
   const { title, description, price, category, thumbnail, code, stock } =
     req.body
@@ -107,11 +107,11 @@ const updateProduct = async (req, res) => {
       productData,
     })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 }
 
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
   const { id } = req.params
   try {
     const productData = await productManager.deleteProduct(id)
@@ -124,7 +124,7 @@ const deleteProduct = async (req, res) => {
       productData,
     })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 }
 

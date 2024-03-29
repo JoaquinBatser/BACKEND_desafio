@@ -8,9 +8,13 @@ export default class ProductsManager {
     try {
       filter.options.lean = true
       const products = await this.repo.get(filter)
-      return products
+      return { success: true, message: 'Products found', products }
     } catch (error) {
-      console.log(error)
+      return {
+        success: false,
+        message: 'An error occurred while fetching products',
+        error: error.message,
+      }
     }
   }
 
@@ -22,10 +26,10 @@ export default class ProductsManager {
         ? { success: false, message: 'Product not found' }
         : { success: true, message: 'Product found', product }
     } catch (error) {
-      if (error instanceof mongoose.Error.CastError) {
-        return { success: false, message: 'Invalid ID format' }
-      } else {
-        return { success: false, message: 'An error occurred' }
+      return {
+        success: false,
+        message: 'An error occurred while fetching a product',
+        error: error.message,
       }
     }
   }
@@ -45,15 +49,13 @@ export default class ProductsManager {
 
   async updateProduct(id, productUpdate) {
     try {
-      const product = this.repo.update(id, productUpdate)
-      return !product
-        ? { success: false, message: 'Product not found' }
-        : { success: true, message: 'Product updated', product }
+      const product = await this.repo.update(id, productUpdate)
+      return { success: true, message: 'Product updated', product }
     } catch (error) {
-      if (error instanceof mongoose.Error.CastError) {
-        return { success: false, message: 'Invalid ID format' }
-      } else {
-        return { success: false, message: 'An error occurred' }
+      return {
+        success: false,
+        message: 'An error occurred while updating the product',
+        error: error.message,
       }
     }
   }
@@ -61,14 +63,15 @@ export default class ProductsManager {
   async deleteProduct(id) {
     try {
       const product = await this.repo.delete(id)
+
       return !product
         ? { success: false, message: 'Product not found' }
-        : { success: true, message: 'Product deleted successfully', product }
+        : { success: true, message: 'Product deleted' }
     } catch (error) {
-      if (error instanceof mongoose.Error.CastError) {
-        return { success: false, message: 'Invalid ID format' }
-      } else {
-        return { success: false, message: 'An error occurred' }
+      return {
+        success: false,
+        message: 'An error occurred while deleting a product',
+        error: error.message,
       }
     }
   }
