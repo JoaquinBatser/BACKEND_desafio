@@ -18,8 +18,6 @@ const strategyOptions = {
 const signup = async (req, email, password, done) => {
   try {
     const signupValidation = signupValidator(req.body)
-    console.log('req.body', req.body)
-    console.log('signupValidation', signupValidation)
     const data = await userManager.addUser(req.body)
 
     if (signupValidation.success === false) {
@@ -47,7 +45,6 @@ const login = async (req, email, password, done) => {
     const user = { email, password }
 
     const loginValidation = loginValidator({ email, password })
-    console.log('loginValidation', loginValidation)
 
     if (loginValidation.success === false) {
       return done(null, false, { loginValidation })

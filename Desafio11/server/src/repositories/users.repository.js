@@ -5,7 +5,6 @@ export default class UsersRepository {
   }
 
   async add(user) {
-    console.log('repository')
     let newUser
     const { email, password } = user
 
@@ -28,22 +27,17 @@ export default class UsersRepository {
         password: createHash(password),
         role: 'user',
       })
-      console.log('newUser', newUser)
       return { newUser, message: 'User created', success: true }
     }
   }
 
   async login({ email, password }) {
-    console.log('repo', 'email', email, 'password', password)
     const user = await this.userModel.findOne({ email })
 
     if (!user) {
       return { 'User does not exist': false }
     }
-    console.log('repo', 'user', user)
     const isValid = isValidPassword(user, password)
-    console.log('repo', 'isValid', isValid)
-    // return true ? user && isValid : false
     return user
   }
   async isValid(user, password) {

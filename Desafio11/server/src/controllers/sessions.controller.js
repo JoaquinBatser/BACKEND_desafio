@@ -5,10 +5,8 @@ const usersManager = new UsersManager(repositories.users)
 
 const signup = async (req, res) => {
   try {
-    console.log('controller')
     const id = req.session.passport.user
     const user = await usersManager.getUserById(id)
-    console.log('controller user', user)
     if (!user.success) {
       res.json({
         success: false,
@@ -32,11 +30,8 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    console.log('controller')
     const id = req.session.passport.user
-    console.log('id', id)
     const userData = await usersManager.getUserById(id)
-    console.log('dataxxx', userData)
     const { password, ...data } = userData.user
 
     if (!userData.success) {
@@ -66,10 +61,8 @@ const githubCallback = async (req, res) => {
 
 const currentUser = async (req, res) => {
   try {
-    console.log('req;;;;;;;', req.session)
     const id = req.session.passport.user
     const user = await usersManager.getUserById(id)
-    console.log('userloged::::::::', user)
 
     if (!user.success) {
       res.json({

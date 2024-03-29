@@ -9,7 +9,7 @@ import loggerRouter from './logger.routes.js'
 
 const indexRouter = express.Router()
 
-// indexRouter.use('/', viewsRouter)
+indexRouter.use('/', viewsRouter)
 indexRouter.use('/api/products', productsRouter)
 indexRouter.use('/api/sessions', sessionsRouter)
 indexRouter.use('/api/carts', cartsRouter)

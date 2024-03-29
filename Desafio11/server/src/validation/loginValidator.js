@@ -16,6 +16,5 @@ export function loginValidator({ email, password }) {
     data.properties.password = false
   }
 
-  console.log('data', data)
   return data
 }

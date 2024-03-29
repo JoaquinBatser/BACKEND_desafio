@@ -54,17 +54,31 @@ const Cart = () => {
   return (
     <>
       {user ? (
-        <div>
-          <p>{user.first_name}'s Cart</p>
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <p className="block text-gray-700 text-lg font-bold mb-2">
+            {user.first_name}'s Cart
+          </p>
           {cartProducts.map((product) => (
             <CartItems product={product} />
           ))}
         </div>
       ) : (
-        <div>
-          <h2>Log in to see your cart</h2>
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/signup">Signup</NavLink>
+        <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
+          <h2 className="block text-gray-700 text-lg font-bold mb-2">
+            Log in to see your cart
+          </h2>
+          <NavLink
+            to="/login"
+            className="bg-neutral-500 hover:bg-neutral-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2"
+          >
+            Login
+          </NavLink>
+          <NavLink
+            to="/signup"
+            className="bg-neutral-500 hover:bg-neutral-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Signup
+          </NavLink>
         </div>
       )}
     </>

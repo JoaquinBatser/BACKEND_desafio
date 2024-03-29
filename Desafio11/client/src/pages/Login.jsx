@@ -24,10 +24,19 @@ const Login = () => {
   }
 
   return (
-    <form id="signup-html" onSubmit={logUser}>
-      <h2>Login</h2>
-      <div>
-        <label htmlFor="email">user:</label>
+    <form
+      id="signup-html"
+      onSubmit={logUser}
+      className="bg-white w-[1200px] mx-auto mt-8 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+    >
+      <h2 className="block text-gray-700 text-lg font-bold mb-2">Login</h2>
+      <div className="mb-4">
+        <label
+          htmlFor="email"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          User:
+        </label>
         <input
           type="text"
           id="email"
@@ -35,11 +44,17 @@ const Login = () => {
           onChange={(e) => {
             setEmail(e.target.value)
           }}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
 
-      <div>
-        <label htmlFor="password">Contraseña:</label>
+      <div className="mb-6">
+        <label
+          htmlFor="password"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Contraseña:
+        </label>
         <input
           type="password"
           id="password"
@@ -47,10 +62,15 @@ const Login = () => {
           onChange={(e) => {
             setPassword(e.target.value)
           }}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
-      <button id="signup" type="submit">
-        Register
+      <button
+        id="signup"
+        type="submit"
+        className="bg-neutral-500 hover:bg-neutral-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Login
       </button>
     </form>
   )
