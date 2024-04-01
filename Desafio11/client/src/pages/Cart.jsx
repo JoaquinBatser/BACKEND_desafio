@@ -15,24 +15,20 @@ const Cart = () => {
     const fetchCart = async () => {
       try {
         const userId = user._id
-        console.log(userId)
         const cartResponse = await getUserCart(userId)
-        console.log(cartResponse)
 
-        if (cartResponse.data.success === false) {
-          console.log(userId)
-
+        if (!cartResponse) {
           const newCart = await createCart(userId)
-          console.log(newCart)
+          console.log('nc', newCart)
           const userCart = await getUserCart(userId)
-          console.log('useccart', userCart)
+          console.log('uc', userCart)
           setCartData(userCart.data)
           setCartProducts(userCart.data.cart.products)
           return
         }
-
-        setCartData(cartResponse.data)
-        setCartProducts(cartResponse.data.cart.products)
+        console.log('cr', cartResponse.data.cartData)
+        setCartData(cartResponse.data.cartData)
+        setCartProducts(cartResponse.data.cartData.products)
       } catch (error) {
         console.log(error)
       }

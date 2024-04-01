@@ -13,8 +13,8 @@ const ProductListContainer = () => {
       try {
         const productsResponse = await fetchProducts(category)
 
-        console.log(productsResponse.data.products.docs)
-        setProductsData(productsResponse.data)
+        console.log(productsResponse.data.productsData.products.docs)
+        setProductsData(productsResponse.data.productsData)
       } catch (error) {}
     }
     fetchProductsData()
@@ -23,7 +23,7 @@ const ProductListContainer = () => {
   return (
     <div>
       {productsData.success ? (
-        <section className="w-[1200px] m-auto">
+        <section className="w-[1200px] mx-auto mt-8">
           <select onChange={(e) => setCategory(e.target.value)}>
             <option value="">Select a category</option>
             <option value="accessories">accessories</option>

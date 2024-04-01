@@ -17,7 +17,8 @@ const Chat = () => {
     const fetchMessages = async () => {
       try {
         const messagesData = await getMessages()
-        setMessages(messagesData.data.data)
+        console.log(messagesData)
+        setMessages(messagesData.data.messagesData.messages)
       } catch (error) {
         console.log(error)
       }

@@ -1,4 +1,5 @@
-import winston from 'winston'
+import winston, { addColors } from 'winston'
+const { combine, simple, colorize, timestamp } = winston.format
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -14,8 +15,8 @@ const customLevels = {
     debug: 5,
   },
   colors: {
-    fatal: 'red',
-    error: 'orange',
+    fatal: 'magenta',
+    error: 'red',
     warning: 'yellow',
     info: 'blue',
     http: 'green',
@@ -23,22 +24,30 @@ const customLevels = {
   },
 }
 
-winston.addColors(customLevels.colors)
+addColors(customLevels.colors)
 
 const devLogger = winston.createLogger({
+  level: 'debug',
   levels: customLevels.levels,
-  format: winston.format.combine(
-    winston.format.colorize({ all: true }),
-    winston.format.simple()
+  format: combine(
+    colorize({ all: true }),
+    timestamp({
+      format: 'YYYY-MM-DD hh:mm:ss.SSS A',
+    }),
+    simple()
   ),
   transports: [new winston.transports.Console()],
 })
 
 const prodLogger = winston.createLogger({
+  level: 'info',
   levels: customLevels.levels,
-  format: winston.format.combine(
-    winston.format.colorize({ all: true }),
-    winston.format.simple()
+  format: combine(
+    colorize({ all: true }),
+    timestamp({
+      format: 'YYYY-MM-DD hh:mm:ss.SSS A',
+    }),
+    simple()
   ),
   transports: [
     new winston.transports.Console(),

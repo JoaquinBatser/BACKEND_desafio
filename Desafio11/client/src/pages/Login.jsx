@@ -15,6 +15,7 @@ const Login = () => {
 
     const userData = { email, password }
     const fetchUser = await loginUser({ userData })
+    console.log(fetchUser)
     if (fetchUser.data.success) {
       setUser(fetchUser.data.user)
       navigate('/')
