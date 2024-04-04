@@ -16,7 +16,7 @@ const transport = nodemailer.createTransport({
 mailRouter.get('/', async (req, res) => {
   let result = await transport.sendMail({
     from: process.env.NODEMAILER_MAIL,
-    to: 'sabrinagomez.3ba@gmail.com',
+    to: '',
     subject: 'Test',
     html: '<h1>Test</h1>',
   })
