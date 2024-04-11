@@ -17,6 +17,9 @@ const NavBar = () => {
         {user ? (
           <>
             <NavLink to="/profile">{user.first_name}</NavLink>
+            {user.role === 'admin' && (
+              <NavLink to="/newProduct">Add product</NavLink>
+            )}
           </>
         ) : (
           <div className="flex gap-2">

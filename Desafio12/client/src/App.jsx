@@ -17,6 +17,7 @@ import ProductList from './components/products/ProductList.jsx'
 import ProductListContainer from './components/products/ProductListContainer.jsx'
 import { UserContext, UserProvider } from './context/UserContext.jsx'
 import Products from './pages/Products.jsx'
+import NewProduct from './pages/newProduct.jsx'
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
@@ -37,6 +38,7 @@ function App() {
         <Route path="*" element={<div>Not Found</div>} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/newProduct" element={<NewProduct />} />
       </Routes>
     </UserProvider>
   )

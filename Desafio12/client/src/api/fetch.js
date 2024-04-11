@@ -19,6 +19,15 @@ export const fetchProductById = async (productId) => {
   }
 }
 
+export const addNewProduct = async (newProduct) => {
+  try {
+    const data = await axios.post('/api/products', newProduct)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const signupUser = async (newUser) => {
   try {
     console.log('newUsefecthr', newUser)
