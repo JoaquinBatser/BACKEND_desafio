@@ -51,4 +51,13 @@ export default class UsersRepository {
   async getById(id) {
     return await this.userModel.findById(id)
   }
+  async updatePassword(id, newPassword) {
+    return await this.userModel
+      .findOneAndUpdate(
+        { _id: id },
+        { $set: { password: newPassword } },
+        { new: true }
+      )
+      .lean()
+  }
 }

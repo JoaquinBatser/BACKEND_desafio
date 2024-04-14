@@ -1,6 +1,7 @@
 import { userModel } from '../../models/user.model.js'
 import mongoose from 'mongoose'
 import { createHash, isValidPassword } from '../../utils.js'
+import bcrypt from 'bcrypt'
 
 export default class UsersManager {
   constructor(repo) {
@@ -66,6 +67,20 @@ export default class UsersManager {
       return user
         ? { success: true, user }
         : { success: false, message: 'User not found' }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async updatePassword(id, newPassword) {
+    try {
+      const hashedPassword = await bcrypt.hash(newPassword, 10)
+      const user = await this.repo.updatePassword(id, hashedPassword)
+      console.log(user)
+      delete user.password
+      return user
+        ? { success: true, message: 'Password updated', user }
+        : { success: false, message: 'Could not update password' }
     } catch (error) {
       console.log(error)
     }

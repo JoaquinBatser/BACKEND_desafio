@@ -30,4 +30,10 @@ sessionsRouter.get(
 
 sessionsRouter.get('/current', sessionsController.currentUser)
 
+sessionsRouter.get(
+  '/password/change/:email',
+  sessionsController.sendPasswordResetEmail
+)
+sessionsRouter.put('/password/change/', sessionsController.updatePassword)
+
 export default sessionsRouter

@@ -9,6 +9,7 @@ const NewProduct = () => {
   const [thumbnail, setThumbnail] = useState('')
   const [code, setCode] = useState('')
   const [stock, setStock] = useState('')
+  const [product, setProduct] = useState({})
 
   const addProduct = async (e) => {
     e.preventDefault()
@@ -25,10 +26,14 @@ const NewProduct = () => {
 
     const productResponse = await addNewProduct(newProduct)
 
+    if (productResponse.data.productData.success) {
+      setProduct(productResponse.data.productData.product)
+    }
+
     console.log(productResponse)
   }
   return (
-    <section className="h-dvh flex justify-center items-center">
+    <section className="flex flex-col py-20 justify-center items-center">
       <form onSubmit={addProduct} className="flex flex-col gap-4 w-1/4">
         <label htmlFor="title">Title</label>
         <input
@@ -111,6 +116,17 @@ const NewProduct = () => {
           Add product
         </button>
       </form>
+      {product && (
+        <div>
+          <p>{product.title}</p>
+          <p>{product.description}</p>
+          <p>{product.price}</p>
+          <p>{product.category}</p>
+          <p>{product.thumbnail}</p>
+          <p>{product.code}</p>
+          <p>{product.stock}</p>
+        </div>
+      )}
     </section>
   )
 }

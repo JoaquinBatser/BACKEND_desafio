@@ -66,6 +66,7 @@ app.use(
 initializePassport()
 
 app.use(passport.initialize())
+app.use(passport.session())
 
 const environment = async () => {
   try {

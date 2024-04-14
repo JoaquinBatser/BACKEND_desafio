@@ -64,14 +64,10 @@ passport.use('signup', signupStrategy)
 passport.use('login', loginStrategy)
 
 passport.serializeUser((user, done) => {
-  console.log('serialize', user)
-  console.log('serialize', user._id)
   done(null, user._id)
 })
 
 passport.deserializeUser(async (id, done) => {
-  console.log('deseralize')
   const user = await userManager.getUserById(id)
-  console.log('deserialize', user)
   done(null, user)
 })

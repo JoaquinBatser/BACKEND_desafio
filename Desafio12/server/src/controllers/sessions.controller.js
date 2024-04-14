@@ -1,6 +1,10 @@
 import repositories from '../repositories/index.js'
 import UsersManager from '../services/db/users.service.db.js'
+import mailing from '../middlewares/mailing.js'
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
 
+dotenv.config()
 const usersManager = new UsersManager(repositories.users)
 
 const signup = async (req, res) => {
@@ -83,4 +87,53 @@ const currentUser = async (req, res) => {
   }
 }
 
-export default { signup, login, githubCallback, currentUser }
+const sendPasswordResetEmail = async (req, res, next) => {
+  const { email } = req.params
+  try {
+    const userData = await usersManager.getByEmail(email)
+    if (!userData.success) {
+      res.json({
+        success: false,
+        message: 'Could not find user',
+        session: req.session,
+      })
+    }
+    const token = jwt.sign({ isValid: true }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    })
+
+    await mailing.sendPassswordChangeEmail(email, token)
+
+    res.status(200).json({
+      success: true,
+      message: 'Email sent',
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+const updatePassword = async (req, res, next) => {
+  try {
+    const { token, id, newPassword } = req.body
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+    if (!decoded) {
+      res.status(401).json({ success: false, message: 'Invalid token' })
+    }
+
+    await usersManager.updatePassword(id, newPassword)
+
+    res.status(200).json({ success: true, message: 'Password updated' })
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message })
+  }
+}
+export default {
+  signup,
+  login,
+  githubCallback,
+  currentUser,
+  updatePassword,
+  sendPasswordResetEmail,
+}
