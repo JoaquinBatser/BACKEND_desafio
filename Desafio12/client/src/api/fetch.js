@@ -55,6 +55,30 @@ export const loginUser = async ({ userData }) => {
   }
 }
 
+export const sendPassswordChangeEmail = async (email) => {
+  try {
+    console.log('fetch', email)
+    const data = await axios.get(`/api/sessions/password/change/${email}`)
+
+    console.log(data)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const updatePassword = async (token, newPassword, userId) => {
+  try {
+    const data = await axios.put(`/api/sessions/password/change/${token}`, {
+      newPassword,
+      userId,
+    })
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const getUser = async () => {
   try {
     const data = await axios.get('/api/sessions/current')

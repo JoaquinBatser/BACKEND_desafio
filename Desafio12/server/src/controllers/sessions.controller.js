@@ -89,8 +89,10 @@ const currentUser = async (req, res) => {
 
 const sendPasswordResetEmail = async (req, res, next) => {
   const { email } = req.params
+  console.log(email)
   try {
     const userData = await usersManager.getByEmail(email)
+    console.log(userData)
     if (!userData.success) {
       res.json({
         success: false,
@@ -114,7 +116,8 @@ const sendPasswordResetEmail = async (req, res, next) => {
 }
 const updatePassword = async (req, res, next) => {
   try {
-    const { token, id, newPassword } = req.body
+    const { token } = req.params
+    const { id, newPassword } = req.body
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 

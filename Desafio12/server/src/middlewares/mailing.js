@@ -11,12 +11,12 @@ const transport = nodemailer.createTransport({
   },
 })
 
-const sendPassswordChangeEmail = async (email, id, token) => {
+const sendPassswordChangeEmail = async (email, token) => {
   const mailOptions = {
     from: process.env.NODEMAILER_MAIL,
     to: email,
     subject: 'Password Reset',
-    text: `Your password reset link is localhost:8000/api/sessions/password/change/${id}/${token} . It has a validity of 1 hour.`,
+    html: `<p>Your password reset link is <a href="http://localhost:5173/passwordChange/${token}"> This one </a> . It has a validity of 1 hour.</p>`,
   }
   try {
     await transport.sendMail(mailOptions)

@@ -18,6 +18,7 @@ import ProductListContainer from './components/products/ProductListContainer.jsx
 import { UserContext, UserProvider } from './context/UserContext.jsx'
 import Products from './pages/Products.jsx'
 import NewProduct from './pages/newProduct.jsx'
+import ChangePassword from './pages/ChangePassword.jsx'
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
@@ -39,6 +40,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/products" element={<Products />} />
         <Route path="/newProduct" element={<NewProduct />} />
+        <Route path="/passwordChange/:token" element={<ChangePassword />} />
       </Routes>
     </UserProvider>
   )
