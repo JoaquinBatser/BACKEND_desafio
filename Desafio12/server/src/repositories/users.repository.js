@@ -38,6 +38,10 @@ export default class UsersRepository {
       return { 'User does not exist': false }
     }
     const isValid = isValidPassword(user, password)
+
+    if (!isValid) {
+      return { 'Invalid credentials': false }
+    }
     return user
   }
   async isValid(user, password) {

@@ -42,7 +42,9 @@ const signup = async (req, email, password, done) => {
 
 const login = async (req, email, password, done) => {
   try {
+    console.log('login', email, password)
     const user = { email, password }
+    console.log(user)
 
     const userLogin = await userManager.loginUser(user)
 

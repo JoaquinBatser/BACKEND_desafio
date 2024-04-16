@@ -83,7 +83,7 @@ const currentUser = async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    next(error.message)
   }
 }
 
@@ -111,7 +111,7 @@ const sendPasswordResetEmail = async (req, res, next) => {
       message: 'Email sent',
     })
   } catch (error) {
-    console.log(error)
+    next(error.message)
   }
 }
 const updatePassword = async (req, res, next) => {
@@ -143,7 +143,7 @@ const updatePassword = async (req, res, next) => {
 
     res.status(200).json({ success: true, message: 'Password updated' })
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message })
+    next(error.message)
   }
 }
 
