@@ -117,7 +117,15 @@ const sendPasswordResetEmail = async (req, res, next) => {
 const updatePassword = async (req, res, next) => {
   try {
     const { token } = req.params
-    const { id, newPassword } = req.body
+    const { email, newPassword } = req.body
+
+    const user = await usersManager.getByEmail(email)
+
+    const id = user.user._id
+    console.log('id', id)
+    console.log('email', email)
+    console.log('newPassword', newPassword)
+    console.log('token', token)
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
@@ -125,13 +133,20 @@ const updatePassword = async (req, res, next) => {
       res.status(401).json({ success: false, message: 'Invalid token' })
     }
 
-    await usersManager.updatePassword(id, newPassword)
+    const passwordUpdate = await usersManager.updatePassword(id, newPassword)
+
+    if (!passwordUpdate.success) {
+      res
+        .status(500)
+        .json({ success: false, message: 'Could not update password' })
+    }
 
     res.status(200).json({ success: true, message: 'Password updated' })
   } catch (error) {
     res.status(500).json({ success: false, message: error.message })
   }
 }
+
 export default {
   signup,
   login,

@@ -46,7 +46,7 @@ export default class UsersManager {
         ? { success: true, message: 'Successful Login', foundUser: userLogin }
         : { success: false, message: 'Invalid credentials' }
     } catch (error) {
-      console.log(error)
+      return { success: false, message: error, user: false }
     }
   }
 
@@ -57,7 +57,7 @@ export default class UsersManager {
         ? { success: true, user }
         : { success: false, message: 'User not found' }
     } catch (error) {
-      console.log(error)
+      return { success: false, message: error, user: false }
     }
   }
 
@@ -68,12 +68,13 @@ export default class UsersManager {
         ? { success: true, user }
         : { success: false, message: 'User not found' }
     } catch (error) {
-      console.log(error)
+      return { success: false, message: error, user: false }
     }
   }
 
   async updatePassword(id, newPassword) {
     try {
+      console.log(id, newPassword)
       const hashedPassword = await bcrypt.hash(newPassword, 10)
       const user = await this.repo.updatePassword(id, hashedPassword)
       console.log(user)
@@ -82,7 +83,7 @@ export default class UsersManager {
         ? { success: true, message: 'Password updated', user }
         : { success: false, message: 'Could not update password' }
     } catch (error) {
-      console.log(error)
+      return { success: false, message: error, user: false }
     }
   }
 }

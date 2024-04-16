@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { getUser } from '../api/fetch'
+import { getUser, sendPassswordChangeEmail } from '../api/fetch'
 import { loginUser } from '../api/fetch'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
@@ -21,6 +21,16 @@ const Login = () => {
       navigate('/')
     } else {
       console.log('NUUH')
+    }
+  }
+
+  const ForgotPassword = async () => {
+    try {
+      console.log('fetch', email)
+      const updateData = await sendPassswordChangeEmail(email)
+      console.log(updateData)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -62,6 +72,7 @@ const Login = () => {
             }}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
           />
+          <button onClick={ForgotPassword}>Forgot password?</button>
         </div>
         <button
           id="signup"

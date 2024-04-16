@@ -67,12 +67,19 @@ export const sendPassswordChangeEmail = async (email) => {
   }
 }
 
-export const updatePassword = async (token, newPassword, userId) => {
+export const updatePassword = async (info) => {
   try {
-    const data = await axios.put(`/api/sessions/password/change/${token}`, {
-      newPassword,
-      userId,
-    })
+    console.log('email', info.email)
+    console.log('newPassword', info.newPassword)
+    console.log('token', info.token)
+    const body = {
+      email: info.email,
+      newPassword: info.newPassword,
+    }
+    const data = await axios.put(
+      `/api/sessions/password/change/${info.token}`,
+      body
+    )
     return data
   } catch (error) {
     console.log(error)
