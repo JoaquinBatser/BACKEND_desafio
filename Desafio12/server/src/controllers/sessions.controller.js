@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 const usersManager = new UsersManager(repositories.users)
 
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
   try {
     const id = req.session.passport.user
     const user = await usersManager.getUserById(id)
@@ -32,7 +32,7 @@ const signup = async (req, res) => {
   }
 }
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const id = req.session.passport.user
     const userData = await usersManager.getUserById(id)
@@ -63,7 +63,7 @@ const githubCallback = async (req, res) => {
   res.redirect('/products')
 }
 
-const currentUser = async (req, res) => {
+const currentUser = async (req, res, next) => {
   try {
     const id = req.session.passport.user
     const user = await usersManager.getUserById(id)
