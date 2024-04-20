@@ -60,6 +60,9 @@ const getProductById = async (req, res, next) => {
 const addProduct = async (req, res, next) => {
   const { title, description, price, category, thumbnail, code, stock } =
     req.body
+
+  const owner = req.user._id
+
   try {
     const productData = await productManager.addProduct({
       title,
@@ -69,6 +72,7 @@ const addProduct = async (req, res, next) => {
       thumbnail,
       code,
       stock,
+      owner,
     })
 
     if (!productData.success) {
@@ -114,6 +118,16 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
   const { id } = req.params
   try {
+    if (req.user.role == 'premium') {
+      const product = await productManager.getProductById(pid)
+
+      if (product.owner != req.user._id) {
+        return res.status(403).json({
+          success: false,
+          message: 'Forbidden',
+        })
+      }
+    }
     const productData = await productManager.deleteProduct(id)
 
     if (!productData.success) {

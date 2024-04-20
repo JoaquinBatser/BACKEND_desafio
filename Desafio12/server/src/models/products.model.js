@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema({
   thumbnail: { type: String, required: true },
   code: { type: String, required: true, unique: true },
   stock: { type: Number, required: true, default: 0 },
+  owner: { type: String, required: true },
 })
 
 productSchema.plugin(paginate)

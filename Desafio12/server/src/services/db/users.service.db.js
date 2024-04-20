@@ -86,4 +86,15 @@ export default class UsersManager {
       return { success: false, message: error, user: false }
     }
   }
+
+  async changeRole(uId, newRole) {
+    try {
+      const user = await this.repo.changeRole(uId, newRole)
+      return user
+        ? { success: true, message: 'Role updated', user }
+        : { success: false, message: 'Could not update role' }
+    } catch (error) {
+      return { success: false, message: error, user: false }
+    }
+  }
 }

@@ -122,10 +122,6 @@ const updatePassword = async (req, res, next) => {
     const user = await usersManager.getByEmail(email)
 
     const id = user.user._id
-    console.log('id', id)
-    console.log('email', email)
-    console.log('newPassword', newPassword)
-    console.log('token', token)
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
@@ -147,6 +143,30 @@ const updatePassword = async (req, res, next) => {
   }
 }
 
+const changeRole = async (req, res, next) => {
+  const { uId } = req.params
+  const { newRole } = req.body
+
+  try {
+    const userData = await usersManager.changeRole(uId, newRole)
+
+    if (!userData.success) {
+      res.status(400).json({
+        success: false,
+        message: 'Could not change role',
+      })
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Role changed',
+      user: userData.user,
+    })
+  } catch (error) {
+    next(error.message)
+  }
+}
+
 export default {
   signup,
   login,
@@ -154,4 +174,5 @@ export default {
   currentUser,
   updatePassword,
   sendPasswordResetEmail,
+  changeRole,
 }

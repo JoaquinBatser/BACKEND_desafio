@@ -64,4 +64,11 @@ export default class UsersRepository {
       )
       .lean()
   }
+  async changeRole(id, newRole) {
+    return await this.userModel.findOneAndUpdate(
+      { _id: id },
+      { $set: { role: newRole } },
+      { new: true }
+    )
+  }
 }

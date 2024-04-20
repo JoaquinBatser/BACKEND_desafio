@@ -36,4 +36,6 @@ sessionsRouter.get(
 )
 sessionsRouter.put('/password/change/:token', sessionsController.updatePassword)
 
+sessionsRouter.get('/premium/:uId', sessionsController.changeRole)
+
 export default sessionsRouter

@@ -70,6 +70,16 @@ const addProductToCart = async (req, res, next) => {
   const { cId, pId } = req.params
 
   try {
+    if (req.user.role == 'premium') {
+      const product = await productsManager.getProductById(pId)
+
+      if (product.owner != req.user._id) {
+        return res.status(403).json({
+          success: false,
+          message: 'Forbidden',
+        })
+      }
+    }
     const cartData = await cartsManager.addProductToCart(cId, pId)
 
     if (!cartData.success) {
