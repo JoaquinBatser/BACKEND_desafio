@@ -35,14 +35,15 @@ export default class UsersRepository {
     const user = await this.userModel.findOne({ email })
 
     if (!user) {
-      return { 'User does not exist': false }
+      return { message: 'User does not exist', success: false }
     }
     const isValid = isValidPassword(user, password)
 
     if (!isValid) {
-      return { 'Invalid credentials': false }
+      return { message: 'Invalid credentials', success:false}
     }
-    return user
+    
+    return { success:true,message:'User logged in', user}
   }
   async isValid(user, password) {
     return isValidPassword(user, password)

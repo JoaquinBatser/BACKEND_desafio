@@ -40,7 +40,7 @@ paths:
       tags:
         - Cart
       parameters:
-        - name: id
+        - name: cId
           in: path
           required: true
           description: The cart's id
@@ -60,7 +60,7 @@ paths:
         tags:
           - Cart
         parameters:
-          - name: id
+          - name: cId
             in: path
             required: true
             description: The cart's id
@@ -81,7 +81,7 @@ paths:
       tags:
         - Cart
       parameters:
-        - name: id
+        - name: userId
           in: path
           required: true
           description: The user's id
@@ -104,7 +104,7 @@ paths:
       tags:
         - Cart
       parameters:
-        - name: id
+        - name: cId
           in: path
           required: true
           description: The cart's id
@@ -125,13 +125,13 @@ paths:
       tags:
         - Cart
       parameters:
-        - name: id
+        - name: cId
           in: path
           required: true
           description: The cart's id
           schema:
             type: string
-        - name: id
+        - name: pId
           in: path
           required: true
           description: The product's id
@@ -151,13 +151,13 @@ paths:
       tags:
         - Cart
       parameters:
-        - name: id
+        - name: cId
           in: path
           required: true
           description: The cart's id
           schema:
             type: string
-        - name: id
+        - name: pId
           in: path
           required: true
           description: The product's id
@@ -177,13 +177,13 @@ paths:
       tags:
         - Cart
       parameters:
-        - name: id
+        - name: cId
           in: path
           required: true
           description: The cart's id
           schema:
             type: string
-        - name: id
+        - name: pId
           in: path
           required: true
           description: The product's id
