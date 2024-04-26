@@ -1,5 +1,6 @@
 const isAllowed = (permissions) => (req, res, next) => {
   console.log(req.session)
+  console.log(req.user)
   // No debe estar logeado
   if (permissions.includes('guest') && req.isAuthenticated()) {
     return res
