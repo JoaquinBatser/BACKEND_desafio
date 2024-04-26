@@ -11,10 +11,10 @@ describe('Testing e-commerce', () => {
       const user = {
         first_name: 'John',
         last_name: 'Doe',
-        email: 'johndoe2@email.com',
+        email: 'johndoe33@email.com',
         password: '123',
         age: 33,
-        role: 'premium',
+        role: 'user',
       }
 
       const response = await requester.post('/api/sessions/signup').send(user)
@@ -22,8 +22,8 @@ describe('Testing e-commerce', () => {
     })
     it('LOGIN', async () => {
       const user = {
-        email: 'johndoe@email.com',
-        password: '123',
+        email: 'adminCoder@coder.com',
+        password: 'adminCod3r123',
       }
 
       const response = await requester.post('/api/sessions/login').send(user)
@@ -40,7 +40,32 @@ describe('Testing e-commerce', () => {
       const { _body } = await requester
         .get('/api/sessions/current')
         .set('Cookie', [`${cookie.name}=${cookie.value}`])
-      expect(_body.user.user.email).to.be.equal('johndoe@email.com')
+      expect(_body.user.user.email).to.be.equal('adminCoder@coder.com')
     })
+  })
+  describe('Testing products', () => {
+    it('FETCH ALL PRODDUCTS', async () => {
+      const response = await requester.get('/api/products')
+      expect(response._body.productsData.success).to.be.equal(true)
+    })
+    it('ADD PRODUCT', async () => {
+      const product = {
+        title: 'Product Test',
+        description: 'Product Test Description',
+        price: 100,
+        category: 'test',
+        thumbnail: 'test',
+        code: 'test',
+        stock: 10,
+        owner: '6603c5f944ec1b8c56b9b1c9',
+      }
+
+      const response = await requester.post('/api/products').send(product)
+      expect(response._body.success).to.be.equal(true)
+    })
+    // it('DELETE PRODUCT', async () => {
+    //   const response = await requester.delete('/api/products/6603c5f944ec1b8c56b9b1c9')
+    //   expect(response._body.success).to.be.equal(true)
+    // })
   })
 })

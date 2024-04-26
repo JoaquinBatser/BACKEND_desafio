@@ -10,7 +10,6 @@ import './passport/strategies.js'
 import initializePassport from './config/passport.config.js'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUiExpress from 'swagger-ui-express'
-
 import { __dirname } from './utils.js'
 import indexRouter from './routes/index.routes.js'
 import passport from 'passport'

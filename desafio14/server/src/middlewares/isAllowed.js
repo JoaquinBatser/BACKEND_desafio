@@ -1,13 +1,14 @@
 const isAllowed = (permissions) => (req, res, next) => {
+  console.log(req.session)
   // No debe estar logeado
-  if (permissions.inclues('guest') && req.isAuthenticated()) {
+  if (permissions.includes('guest') && req.isAuthenticated()) {
     return res
       .status(401)
       .json({ success: false, message: 'Unauthorized', redirectUrl: '/home' })
   }
 
   // Debe estar logeado (incluye user, premium y admin)
-  if (permissions.inclues('user') && !req.isAuthenticated()) {
+  if (permissions.includes('user') && !req.isAuthenticated()) {
     return res
       .status(401)
       .json({ success: false, message: 'Unauthorized', redirectUrl: '/error' })
