@@ -5,8 +5,9 @@ const expect = chai.expect
 const requester = supertest('http://localhost:8000')
 
 describe('Testing e-commerce', () => {
+  let cookie
+
   describe('Testing login - register', () => {
-    let cookie
     it('REGISTER', async () => {
       const user = {
         first_name: 'John',
@@ -49,6 +50,22 @@ describe('Testing e-commerce', () => {
       expect(response._body.productsData.success).to.be.equal(true)
     })
     it('ADD PRODUCT', async () => {
+      const user = {
+        email: 'adminCoder@coder.com',
+        password: 'adminCod3r123',
+      }
+
+      const loginResponse = await requester
+        .post('/api/sessions/login')
+        .send(user)
+      const cookieResult = loginResponse.headers['set-cookie'][0]
+      expect(cookieResult).to.be.ok
+      cookie = {
+        name: cookieResult.split('=')[0],
+        value: cookieResult.split('=')[1].split(';')[0],
+      }
+      expect(cookie.name).to.be.equal('connect.sid')
+
       const product = {
         title: 'Product Test',
         description: 'Product Test Description',
