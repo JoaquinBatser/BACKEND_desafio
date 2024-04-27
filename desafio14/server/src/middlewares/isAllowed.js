@@ -18,7 +18,7 @@ const isAllowed = (permissions) => (req, res, next) => {
   // Solo roles especificos
   if (
     (permissions.includes('premium') || permissions.includes('admin')) &&
-    !permissions.includes(req.user.role)
+    !permissions.includes(req.user.user.role)
   ) {
     return res
       .status(403)

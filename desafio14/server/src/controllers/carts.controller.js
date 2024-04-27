@@ -70,10 +70,10 @@ const addProductToCart = async (req, res, next) => {
   const { cId, pId } = req.params
 
   try {
-    if (req.user.role == 'premium') {
-      const product = await productsManager.getProductById(pId)
+    if (req.user.user.role == 'premium') {
+      const productData1 = await productsManager.getProductById(pId)
 
-      if (product.owner != req.user._id) {
+      if (productData1.product.owner != req.user.user._id) {
         return res.status(403).json({
           success: false,
           message: 'Forbidden',

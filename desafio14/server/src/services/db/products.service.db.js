@@ -63,7 +63,7 @@ export default class ProductsManager {
   async deleteProduct(id) {
     try {
       const product = await this.repo.delete(id)
-
+      console.log('servoce', product)
       return !product
         ? { success: false, message: 'Product not found' }
         : { success: true, message: 'Product deleted' }

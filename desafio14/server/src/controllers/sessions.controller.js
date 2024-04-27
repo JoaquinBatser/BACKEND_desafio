@@ -37,6 +37,7 @@ const login = async (req, res, next) => {
     const id = req.session.passport.user
     const userData = await usersManager.getUserById(id)
     const { password, ...data } = userData.user
+    console.log('login')
 
     if (!userData.success) {
       res.json({
