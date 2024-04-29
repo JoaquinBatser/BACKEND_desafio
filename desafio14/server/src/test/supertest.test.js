@@ -6,13 +6,14 @@ const requester = supertest('http://localhost:8000')
 
 describe('Testing e-commerce', () => {
   let cookie
+  const randomNumber = Math.floor(Math.random() * 1000)
 
   describe('Testing sessions', () => {
     it('REGISTER', async () => {
       const user = {
-        first_name: 'John',
+        first_name: `John${randomNumber}`,
         last_name: 'Doe',
-        email: 'johndoe33@email.com',
+        email: `john${randomNumber}doe@email.com`,
         password: '123',
         age: 33,
         role: 'user',
@@ -67,12 +68,12 @@ describe('Testing e-commerce', () => {
       expect(cookie.name).to.be.equal('connect.sid')
 
       const product = {
-        title: 'Product Test',
+        title: `Product Test ${randomNumber}`,
         description: 'Product Test Description',
         price: 100,
         category: 'test',
         thumbnail: 'test',
-        code: 'test-b',
+        code: `code-${randomNumber}`,
         stock: 10,
         owner: '6603c5f944ec1b8c56b9b1c9',
       }
